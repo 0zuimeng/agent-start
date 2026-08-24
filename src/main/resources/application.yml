@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: local
   application:
     name: yu-ai-agent
   datasource:
@@ -8,11 +10,11 @@ spring:
     driver-class-name: org.postgresql.Driver
   ai:
     openai:
-      api-key: ${ARK_API_KEY:your-ark-api-key}
-      base-url: https://ark.cn-beijing.volces.com/api/v3
+      api-key: ${zuimeng.zijie.api-key}
+      base-url: ${zuimeng.zijie.base-url}
       chat:
         options:
-          model: ${ARK_MODEL_ID:your-endpoint-id}
+          model: ${zuimeng.zijie.model}
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
@@ -40,3 +42,6 @@ knife4j:
   enable: true
   setting:
     language: zh_cn
+logging:
+  level:
+    org.springframework.web.client: debug
