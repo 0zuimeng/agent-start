@@ -21,6 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/chat")
+@RequiredArgsConstructor
 public class ChatController {
     @Data
     static class Study {
@@ -33,10 +34,10 @@ public class ChatController {
 
     private final ChatClient chatClient;
 
-    public ChatController(ChatModel chatModel, ChatClient.Builder builder) {
-        this.chatModel = chatModel;
-        this.chatClient = builder.defaultSystem("你很幽默").build();
-    }
+//    public ChatController(ChatModel chatModel, ChatClient.Builder builder) {
+//        this.chatModel = chatModel;
+//        this.chatClient = builder.defaultSystem("你很幽默").build();
+//    }
     @GetMapping("/ai")
     public String getAns(@RequestParam String userInput){
         // 返回的元数据
@@ -71,5 +72,14 @@ public class ChatController {
     public Flux<String> streamOutput() {
         // 流式响应
         return chatClient.prompt().user("讲一个故事").stream().content();
+    }
+
+    @GetMapping("/defaultClient/params")
+    public String defaultClientParams(@RequestParam("username") String name, @RequestParam String message) {
+        return chatClient.prompt()
+                .system(sp -> sp.param("username",name))
+                .user(message)
+                .call()
+                .content();
     }
 }
