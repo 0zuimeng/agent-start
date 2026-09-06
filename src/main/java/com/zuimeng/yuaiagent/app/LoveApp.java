@@ -1,6 +1,7 @@
 package com.zuimeng.yuaiagent.app;
 
 
+import com.zuimeng.yuaiagent.advisor.LogAdvisor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor;
@@ -27,7 +28,10 @@ public class LoveApp {
 
         this.chatClient = ChatClient
                 .builder(chatModel)
-                .defaultAdvisors(MessageChatMemoryAdvisor.builder(memory).build())
+                .defaultAdvisors(
+                        MessageChatMemoryAdvisor.builder(memory).chatMemoryRetrieveSize(4).build(),
+                        new LogAdvisor()
+                )
                 .defaultSystem(SYSTEM_PROMPT)
                 .build();
 

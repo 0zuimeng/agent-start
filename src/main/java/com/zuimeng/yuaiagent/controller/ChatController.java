@@ -2,12 +2,14 @@ package com.zuimeng.yuaiagent.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.ai.openai.api.OpenAiApi;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.Data;
+import org.springframework.web.server.session.InMemoryWebSessionStore;
 import reactor.core.publisher.Flux;
 
 import java.util.List;
@@ -29,6 +32,7 @@ public class ChatController {
         String age;
         String sex;
     }
+
     // 构造的两种方式
     private final ChatModel chatModel;
 
@@ -82,4 +86,6 @@ public class ChatController {
                 .call()
                 .content();
     }
+
+
 }
